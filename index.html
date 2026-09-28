@@ -356,7 +356,7 @@
     { img: 'assets/pf-chaleco.jpg', pos: '50% 40%', cat: 'Sastrería', titulo: 'Chaleco largo cuello mao', resumen: 'Chaleco sin mangas en tono arena, con cuello mao, cierre oculto y aberturas laterales.', reto: 'Líneas limpias y hombro estructurado sin forro visible.', roles: ['Patronaje', 'Confección'] },
     { img: 'assets/pf-traje.jpg', pos: '50% 35%', cat: 'A la medida', titulo: 'Conjunto sastre de saco y falda', resumen: 'Saco cruzado de manga tres cuartos con pespunte decorativo y falda recta, hecho a las medidas de la clienta.', reto: 'Pruebas en persona para ajustar el saco a la silueta y la comodidad diaria.', roles: ['Patronaje', 'Confección', 'Ajustes'] },
     { img: 'assets/pf-vaquera.jpg', pos: '50% 40%', cat: 'A la medida', titulo: 'Camisa vaquera de manta', resumen: 'Camisa de manta con canesú en punta, bolsas de parche con cartera y botones metálicos de presión.', reto: 'Combinar dos texturas de manta en canesú y cuerpo para dar detalle sin agregar color.', roles: ['Patronaje', 'Confección'] },
-    { img: 'assets/pf-mojiganga.jpg', pos: '50% 30%', cat: 'Vestuario típico', titulo: 'Vestuario para <em>monos de calenda</em>', resumen: 'Blusa de satín con listones bordados y falda floreada de olán con encaje, a escala de una mojiganga tradicional.', reto: 'Patronar a escala gigante y reforzar costuras para que la figura aguante el baile en la calle.', roles: ['Diseño', 'Patronaje', 'Confección'] }
+    { img: 'assets/pf-mojiganga.jpg', pos: '50% 30%', cat: 'Vestuario típico', titulo: 'Vestuario para <em>monos de calenda</em>', resumen: 'Blusa de satín con listones bordados y falda floreada de olán con encaje, diseño a escala inspirado en la indumentaria de una <em>China Oaxaqueña</em>.', reto: 'Patronar a escala gigante y reforzar costuras para que la figura aguante el baile en la calle.', roles: ['Diseño', 'Patronaje', 'Confección'] }
   ];
   const roleNames = ['Diseño', 'Patronaje', 'Confección', 'Producción', 'Acabados', 'Ajustes'];
   const cats = ['Todo', 'Novias', 'Sastrería', 'A la medida', 'Producción', 'Diseño de autor', 'Vestuario típico'];
@@ -383,7 +383,7 @@
           <div class="work-body">
             <span class="eyebrow">${esc(p.cat)}</span>
             <span class="work-title">${p.titulo}</span>
-            <p>${esc(p.resumen)}</p>
+            <p>${p.resumen}</p>
             <div class="tags">${p.roles.map(r => `<span class="tag tag-accent-2">${r}</span>`).join('')}</div>
           </div>
         </a>`).join('');
@@ -425,7 +425,7 @@
     $('pTitleCrumb').innerHTML = p.titulo;
     $('pTitle').innerHTML = p.titulo;
     $('pCat').textContent = p.cat;
-    $('pResumen').textContent = p.resumen;
+    $('pResumen').innerHTML = p.resumen;
     $('pReto').textContent = p.reto;
     $('pImg').src = p.img; $('pImg').alt = plain(p.titulo); $('pImg').style.objectPosition = p.pos;
     $('pRoles').innerHTML = roleNames.map(n => {
