@@ -5,7 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Antonia — hecho con amor</title>
 <meta name="description" content="Antonia, modista: diseño, patronaje y confección para marcas, eventos y personas.">
-<link rel="icon" href="assets/logo-gold.png">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caprasimo:wght@400&family=Figtree:wght@400;600;700&display=swap">
 <link rel="stylesheet" href="styles.css">
 <style>
   body { overflow-x: hidden; }
@@ -225,7 +230,7 @@
       <div class="hero-art">
         <div class="blob blob-sage"></div>
         <div class="blob blob-clay"></div>
-        <div class="arch"><img src="assets/antonia-taller-2.jpeg" alt="Antonia trazando un patrón en su taller" style="object-position:50% 42%"></div>
+        <div class="arch"><img src="assets/antonia-taller-2-web.jpg" fetchpriority="high" alt="Antonia trazando un patrón en su taller" style="object-position:50% 42%"></div>
       </div>
     </section>
 
@@ -312,7 +317,7 @@
   <!-- ═══ Sobre Antonia + Contacto ═══ -->
   <div data-view="sobre" hidden>
     <section class="about" id="sobre">
-      <div class="about-img"><img class="fill" src="assets/antonia-plaza.jpg" alt="Antonia en una plaza"></div>
+      <div class="about-img"><img class="fill" src="assets/antonia-plaza.jpg" loading="lazy" alt="Antonia en una plaza"></div>
       <div class="about-copy">
         <span class="tag tag-accent" style="align-self:flex-start">Sobre Antonia</span>
         <h1>Hecho con amor, puntada por puntada.</h1>
@@ -332,7 +337,7 @@
       <div style="display:flex;flex-direction:column;gap:24px;align-items:flex-start">
         <h1>Platiquemos.</h1>
         <div class="me">
-          <div class="avatar"><img class="fill washed" src="assets/antonia-cafe.jpg" alt="Antonia"></div>
+          <div class="avatar"><img class="fill washed" src="assets/antonia-cafe.jpg" loading="lazy" alt="Antonia"></div>
           <div><div style="font-family:var(--font-heading);font-size:22px">Antonia</div><div class="muted" style="font-size:15px">WhatsApp · 951 234 82 05</div></div>
         </div>
         <div class="stack" style="margin-top:12px">
@@ -404,6 +409,8 @@
   const $ = id => document.getElementById(id);
   const plain = s => s.replace(/<[^>]+>/g, '');
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  // Versiones ligeras generadas por herramientas/optimizar-imagenes.py; si falta alguna, se usa la foto completa.
+  const ligera = (src, carpeta) => `src="${src.replace(/^assets\//, `assets/${carpeta}/`)}" onerror="this.onerror=null;this.src='${src}'"`;
   const checkSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
 
   /* ── Portafolio ── */
@@ -414,7 +421,7 @@
       .filter(({ p }) => state.filtro === 'Todo' || p.cat === state.filtro)
       .map(({ p, i }) => `
         <a class="work" href="#proyecto-${i + 1}">
-          <div class="work-img"><img class="fill" src="${p.img}" alt="${esc(plain(p.titulo))}" loading="lazy" style="object-position:${p.pos}">${p.galeria ? `<span class="work-badge">${p.galeria.length + 1} fotos</span>` : ''}</div>
+          <div class="work-img"><img class="fill" ${ligera(p.img, 'tarjetas')} alt="${esc(plain(p.titulo))}" loading="lazy" style="object-position:${p.pos}">${p.galeria ? `<span class="work-badge">${p.galeria.length + 1} fotos</span>` : ''}</div>
           <div class="work-body">
             <span class="eyebrow">${esc(p.cat)}</span>
             <span class="work-title">${p.titulo}</span>
@@ -466,11 +473,11 @@
     const fotos = fotosDe(p), many = fotos.length > 1, track = $('pTrack');
     track.classList.add('is-dragging');
     track.innerHTML = fotos.map((f, i) =>
-      `<img src="${f.img}" alt="${esc(plain(p.titulo))}${many ? ` — foto ${i + 1} de ${fotos.length}` : ''}" draggable="false" style="object-position:${f.pos}"${i ? ' aria-hidden="true"' : ''}>`).join('');
+      `<img src="${f.img}" alt="${esc(plain(p.titulo))}${many ? ` — foto ${i + 1} de ${fotos.length}` : ''}" draggable="false" style="object-position:${f.pos}"${i ? ' aria-hidden="true" loading="lazy"' : ''}>`).join('');
     $('pMain').classList.toggle('has-many', many);
     $('pNav').hidden = $('pFotos').hidden = !many;
     $('pFotos').innerHTML = many ? fotos.map((q, i) =>
-      `<button type="button" aria-label="Foto ${i + 1}" data-foto="${i}"><img class="fill" src="${q.img}" alt="" style="object-position:${q.pos}"></button>`).join('') : '';
+      `<button type="button" aria-label="Foto ${i + 1}" data-foto="${i}"><img class="fill" ${ligera(q.img, 'miniaturas')} alt="" style="object-position:${q.pos}"></button>`).join('') : '';
     renderFoto();
     void track.offsetWidth;
     track.classList.remove('is-dragging');
@@ -479,7 +486,7 @@
       return `<div class="role ${on ? '' : 'is-off'}"><span class="check ${on ? 'on' : 'off'}">${on ? checkSvg : ''}</span>${n}<span class="sr" style="position:absolute;left:-9999px">${on ? '(sí)' : '(no)'}</span></div>`;
     }).join('');
     $('pDots').innerHTML = projects.map((q, i) =>
-      `<a href="#proyecto-${i + 1}" aria-label="${esc(plain(q.titulo))}" aria-current="${i === state.sel}"><img class="fill" src="${q.img}" alt="" style="object-position:${q.pos}"></a>`).join('');
+      `<a href="#proyecto-${i + 1}" aria-label="${esc(plain(q.titulo))}" aria-current="${i === state.sel}"><img class="fill" ${ligera(q.img, 'miniaturas')} loading="lazy" alt="" style="object-position:${q.pos}"></a>`).join('');
   }
   const fotosDe = p => [{ img: p.img, pos: p.pos }, ...(p.galeria || [])];
   function renderFoto(dx = 0) {
